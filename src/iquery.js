@@ -65,6 +65,10 @@ var type = function(val){
     return type;
 }
 
+var uniqueFilter = function(v,idx,self){
+    return v && self.indexOf(v) === idx;
+}
+
 var iQuery = function(selector, context){
 
     var elems = selectElements(selector, context);
@@ -129,12 +133,26 @@ iQuery.prototype = {
             }
         }
 
-        elems.filter(function(v,idx,self){
-            return self.indexOf(v) === idx;
-        });
-
-        return new iQuery(elems);
-    }
+        return new iQuery(elems.filter(uniqueFilter));
+    },
+    addClass: function(className){
+        for (var i = 0; i < this.length; i++) {
+            this[i].classList.add(className);
+        }
+        return this;
+    },
+    removeClass: function(className){
+        for (var i = 0; i < this.length; i++) {
+            this[i].classList.remove(className);
+        }
+        return this;
+    },
+    toggleClass: function(className){
+        for (var i = 0; i < this.length; i++) {
+            this[i].classList.toggle(className);
+        }
+        return this;
+    },
 };
 
 window.iQuery = window.$ = function(selector, context){

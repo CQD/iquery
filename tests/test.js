@@ -45,6 +45,8 @@ QUnit.test("Select elements", function(assert) {
 });
 
 QUnit.test("Create element", function(assert) {
+    var $e;
+
     $e = $('<div>');
     assert.equal($e.length, 1, 'Create div');
     assert.equal($e[0].tagName, 'DIV', 'Create div');
@@ -53,7 +55,6 @@ QUnit.test("Create element", function(assert) {
     assert.equal($e.length, 1, 'Create div');
     assert.equal($e[0].tagName, 'DIV', 'Create div');
 });
-
 
 QUnit.test("css()", function(assert) {
     var $e;
@@ -86,4 +87,43 @@ QUnit.test("css()", function(assert) {
 
     assert.ok($('no-such-element').css({'border':'1px solid #ccc'}).iQuery, 'Set style to empty object returns iQuery object');
     assert.equal($('no-such-element').css('font-size'), undefined,'Get style from empty object returns `undefined`');
+});
+
+QUnit.test("class methods", function(assert) {
+    var e1 = document.createElement('div');
+    var e2 = document.createElement('div');
+    var $e = $([e1,e2]);
+
+    $e.addClass('clazz1');
+    assert.equal($e[0].className, 'clazz1', 'Add class')
+    assert.equal($e[1].className, 'clazz1', 'Add class')
+
+    $e.addClass('clazz1');
+    assert.equal($e[0].className, 'clazz1', 'Add existing class has no effect')
+    assert.equal($e[1].className, 'clazz1', 'Add existing class has no effect')
+
+    $e.addClass('clazz2');
+    $e.addClass('clazz3');
+    $e.addClass('clazz4');
+    assert.equal($e[0].className, 'clazz1 clazz2 clazz3 clazz4', 'Add more class')
+    assert.equal($e[1].className, 'clazz1 clazz2 clazz3 clazz4', 'Add more class')
+
+    $e.toggleClass('clazz3')
+    assert.equal($e[0].className, 'clazz1 clazz2 clazz4', 'Toggle more class out')
+    assert.equal($e[1].className, 'clazz1 clazz2 clazz4', 'Toggle more class out')
+
+    $e.toggleClass('clazz3')
+    assert.equal($e[0].className, 'clazz1 clazz2 clazz4 clazz3', 'Toggle more class in')
+    assert.equal($e[1].className, 'clazz1 clazz2 clazz4 clazz3', 'Toggle more class in')
+
+    $e.removeClass('clazz1')
+    assert.equal($e[0].className, 'clazz2 clazz4 clazz3', 'Remove class')
+    assert.equal($e[1].className, 'clazz2 clazz4 clazz3', 'Remove class')
+
+    $e.removeClass('clazz1')
+    assert.equal($e[0].className, 'clazz2 clazz4 clazz3', 'Remove non-existing class has no effect')
+    assert.equal($e[1].className, 'clazz2 clazz4 clazz3', 'Remove non-existing class has no effect')
+
+    e1.remove();
+    e2.remove();
 });
