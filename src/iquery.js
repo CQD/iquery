@@ -50,6 +50,21 @@ var containElement = function(tree, node)
     return false;
 }
 
+var camelize = function(name){
+    return name.replace(/-+(.)?/g, function(match, chr){ return chr ? chr.toUpperCase() : '' })
+}
+
+var type = function(val){
+    var type = typeof val;
+    switch (type) {
+    case 'object':
+        if (Array.isArray(val)) {
+            type = 'array';
+        }
+    }
+    return type;
+}
+
 var iQuery = function(selector, context){
 
     var elems = selectElements(selector, context);
@@ -68,6 +83,41 @@ iQuery.prototype = {
     length: 0,
     eq: function(idx){
         return new iQuery(this[idx])
+    },
+    css: function(name, value) {
+        var names, obj, i, k, ele;
+
+        switch (type(name)) {
+        case 'string':
+            names = [name];
+        case 'array':
+            names = names || name;
+            if (value) {
+                obj = {};
+                for (k in names) {
+                    obj[names[k]] = value
+                }
+                return this.css(obj);
+            } else {
+                ele = this[0];
+                if (!ele) return undefined;
+
+                obj = {};
+                for (k in names) {
+                    k = names[k];
+                    obj[k] = ele.style[camelize(k)];
+                }
+
+                return (names === name) ? obj : obj[name];
+            }
+        case 'object':
+            for (i = 0; i < this.length; i++) {
+                for (k in name) {
+                    this[i].style[camelize(k)] = name[k];
+                }
+            }
+        }
+        return this;
     },
     find: function(selector){
         // TODO need speed up...?

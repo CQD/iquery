@@ -53,3 +53,37 @@ QUnit.test("Create element", function(assert) {
     assert.equal($e.length, 1, 'Create div');
     assert.equal($e[0].tagName, 'DIV', 'Create div');
 });
+
+
+QUnit.test("css()", function(assert) {
+    var $e;
+    $e = $('#iqueryPlayGround li').css({
+        'background': 'red',
+        'font-size': '10px',
+        'color': 'white',
+        'border': '1px solid green'
+    })
+    assert.ok($e.iQuery, 'Returns iQuery object');
+
+    $e = $('#iqueryPlayGround #b li').css('background', 'blue');
+    assert.ok($e.iQuery, 'Returns iQuery object');
+
+    assert.equal($('#iqueryPlayGround #a li').css('background-color'), 'red', 'Set style by object then read');
+    assert.equal($('#iqueryPlayGround #a li').css('font-size'), '10px', 'Set style by object then read');
+    assert.equal($('#iqueryPlayGround #a li').css('border-color'), 'green', 'Set style by object then read');
+
+    $e = $('#iqueryPlayGround #b li').css('font-size', '8px');
+    assert.ok($e.iQuery, 'Returns iQuery object');
+
+    assert.equal($('#iqueryPlayGround #b li').css('font-size'), '8px', 'Override style then read');
+    assert.equal($('#iqueryPlayGround #b li').css('background-color'), 'blue', 'Override style by function then read');
+
+    assert.deepEqual(
+        $('#iqueryPlayGround #b li').css(['border-width', 'font-size']),
+        {'border-width':'1px', 'font-size':'8px'},
+        'Read multiple styles'
+    );
+
+    assert.ok($('no-such-element').css({'border':'1px solid #ccc'}).iQuery, 'Set style to empty object returns iQuery object');
+    assert.equal($('no-such-element').css('font-size'), undefined,'Get style from empty object returns `undefined`');
+});
