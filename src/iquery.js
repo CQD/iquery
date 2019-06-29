@@ -69,6 +69,34 @@ var uniqueFilter = function(v,idx,self){
     return v && self.indexOf(v) === idx;
 }
 
+var setParent = function(parent, childs, func){
+    var i;
+    func = func || 'append';
+
+    parent = (parent && parent.iQuery) ? parent[0]        : parent;
+    childs = (childs && childs.iQuery) ? iq2elems(childs) : childs;
+
+    parent = (parent && parent.nodeType) ? parent   : undefined;
+    childs = (childs && childs.nodeType) ? [childs] : childs;
+
+    if (parent && childs) {
+        // NOTE: if migrate to ES6, no reverse and for loop needed
+        // use `parent[func](...childs);` instead
+        childs = ('prepend' === func) ? childs.reverse() : childs;
+        for (i in childs) {
+            parent[func](childs[i]);
+        }
+    }
+}
+
+var iq2elems = function(iq) {
+    var i, elems = [];
+    for (i = 0; i < iq.length; i++) {
+        elems.push(iq[i]);
+    }
+    return elems;
+}
+
 var iQuery = function(selector, context){
 
     var elems = selectElements(selector, context);
@@ -153,6 +181,30 @@ iQuery.prototype = {
         }
         return this;
     },
+
+    prepend: function(dst){
+        setParent(this, dst, 'prepend');
+        return this;
+    },
+    prependTo: function(dst){
+        setParent(dst, this, 'prepend');
+        return this;
+    },
+    append: function(dst){
+        setParent(this, dst, 'append');
+        return this;
+    },
+    appendTo: function(dst){
+        setParent(dst, this, 'append');
+        return this;
+    },
+    remove: function(){
+        for (var i = 0; i < this.length; i++) {
+            this[i].parentNode.removeChild(this[i]);
+        }
+        return this;
+    },
+
 };
 
 window.iQuery = window.$ = function(selector, context){

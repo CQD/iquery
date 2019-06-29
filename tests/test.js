@@ -129,3 +129,68 @@ QUnit.test("class methods", function(assert) {
     e1.remove();
     e2.remove();
 });
+
+QUnit.test("append/prepend/remove functions", function(assert) {
+    var $a1 = $('#a1');
+    var $a2 = $('#a2');
+    var $a3 = $('#a3');
+    var $a = $('#a');
+    var $b = $('#b');
+    var $eles;
+
+    // a: a1 a2
+    // b: b1 b2 b3
+    $a3.remove();
+    assert.equal($('#a li').length, 2, 'Remove a child from #a');
+
+    // a: a1 a2
+    // b: b1 b2 b3 a3
+    $a3.appendTo($b);
+    assert.equal($('#b li').length, 4, 'Append a child to #b');
+    assert.equal($('#b li').eq(3)[0].id, 'a3', 'Append a child to #b');
+
+    // a: a1 a2
+    // b: b1 b2 b3 a3
+    $a3.appendTo($b);
+    assert.equal($('#b li').length, 4, 'Append same child to #b');
+    assert.equal($('#b li').eq(3)[0].id, 'a3', 'Append same child to #b');
+
+    // a: a1
+    // b: a2 b1 b2 b3 a3
+    $b.prepend($a2);
+    assert.equal($('#b li').length, 5, 'Prepend another child to #b');
+    assert.equal($('#b li').eq(0)[0].id, 'a2', 'Prepend another child to #b');
+    assert.equal($('#b li').eq(3)[0].id, 'b3', 'Prepend another child to #b');
+    assert.equal($('#b li').eq(4)[0].id, 'a3', 'Prepend another child to #b');
+
+    // a: a2 b1 b2 b3 a3 a1
+    // b:
+    $b.find('li').prependTo($a);
+    assert.equal($a.find('li').length, 6, 'Move all children to #a');
+    assert.equal($a.find('li').eq(0)[0].id, 'a2', 'Move all children to #a');
+    assert.equal($a.find('li').eq(1)[0].id, 'b1', 'Move all children to #a');
+    assert.equal($a.find('li').eq(5)[0].id, 'a1', 'Move all children to #a');
+
+    // a: a2 a3 a1
+    // b: b1 b2 b3
+    $b.append($('#b2')[0]);
+    $('#b3').appendTo($b[0]);
+    $b.prepend($('#b1')[0]);
+    assert.equal($a.find('li').length, 3, 'Move everything back');
+    assert.equal($a.find('li').eq(1)[0].id, 'a3', 'Move everything back');
+
+    assert.equal($b.find('li').length, 3, 'Move everything back');
+    assert.equal($b.find('li').eq(0)[0].id, 'b1', 'Move everything back');
+    assert.equal($b.find('li').eq(1)[0].id, 'b2', 'Move everything back');
+    assert.equal($b.find('li').eq(2)[0].id, 'b3', 'Move everything back');
+
+    // a: a1 a2 a3
+    // b: b1 b2 b3
+    $a3.appendTo($('#a'));
+    $a1.prependTo($('#a'));
+    assert.equal($a.find('li').length, 3, 'Move everything back');
+    assert.equal($a.find('li')[0].id, 'a1', 'Move everything back');
+    assert.equal($a.find('li')[1].id, 'a2', 'Move everything back');
+    assert.equal($a.find('li')[2].id, 'a3', 'Move everything back');
+
+});
