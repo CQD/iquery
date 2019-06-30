@@ -205,6 +205,18 @@ iQuery.prototype = {
         return this;
     },
 
+    html: function(value){
+        switch (typeof value) {
+        case 'undefined':
+            return (this[0] || {}).innerHTML;
+        case 'string':
+            for (var i = 0; i < this.length; i++) {
+                this[i].innerHTML = value;
+            }
+        }
+        return this;
+    },
+
     each: function(func){
         for (var i = 0; i < this.length; i++) {
             func.call(this[i], i);

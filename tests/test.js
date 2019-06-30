@@ -204,3 +204,16 @@ QUnit.test("each()", function(assert) {
     });
     assert.equal(text, '0:a1,1:a2,2:a3,', 'each() every elements');
 });
+
+QUnit.test("html()", function(assert) {
+    var $p = $('#iqueryPlayGround p');
+    var $e, html;
+
+    assert.equal($p.html(), 'ppppp', 'html() basic get html');
+
+    $e = $('<div>').append($('<span>')).append($('<div>').html('<p>AA<span>QQQ</span>BB</p>'))
+    html = $e.html().split("\n").join('');
+    assert.equal(html, '<span></span><div><p>AA<span>QQQ</span>BB</p></div>', 'html() set and get html');
+
+    assert.equal($e.find('p').html(), 'AA<span>QQQ</span>BB', 'Get html from dynamicly created element');
+});
