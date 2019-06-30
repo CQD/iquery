@@ -194,3 +194,13 @@ QUnit.test("append/prepend/remove functions", function(assert) {
     assert.equal($a.find('li')[2].id, 'a3', 'Move everything back');
 
 });
+
+QUnit.test("each()", function(assert) {
+    var $a = $('#a li');
+
+    var text = '';
+    $a.each(function(i){
+        text += i + ":" + this.id + ",";
+    });
+    assert.equal(text, '0:a1,1:a2,2:a3,', 'each() every elements');
+});

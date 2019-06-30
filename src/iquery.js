@@ -205,6 +205,12 @@ iQuery.prototype = {
         return this;
     },
 
+    each: function(func){
+        for (var i = 0; i < this.length; i++) {
+            func.call(this[i], i);
+        }
+        return this;
+    }
 };
 
 window.iQuery = window.$ = function(selector, context){
