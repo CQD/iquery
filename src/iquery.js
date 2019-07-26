@@ -205,6 +205,17 @@ iQuery.prototype = {
         return this;
     },
 
+    text: function(text){
+        switch (typeof text) {
+        case 'undefined':
+            return (this[0] || {}).textContent;
+        case 'string':
+            for (var i = 0; i < this.length; i++) {
+                this[i].textContent = text;
+            }
+        }
+        return this;
+    },
     html: function(value){
         switch (typeof value) {
         case 'undefined':

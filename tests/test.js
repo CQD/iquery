@@ -217,3 +217,24 @@ QUnit.test("html()", function(assert) {
 
     assert.equal($e.find('p').html(), 'AA<span>QQQ</span>BB', 'Get html from dynamicly created element');
 });
+
+QUnit.test("text()", function(assert){
+    var $e;
+    $e = $('<div>');
+    assert.equal($e.text(), '');
+    $e.text('<script></script>');
+    assert.equal($e.html(), '&lt;script&gt;&lt;/script&gt;');
+    assert.equal($e.text(), '<script></script>');
+
+    $e = $('<input>')
+    assert.equal($e.text(), '');
+    $e.text('<script></script>');
+    assert.equal($e.html(), '');
+    assert.equal($e.text(), '<script></script>');
+
+    $e = $('<textarea>')
+    assert.equal($e.text(), '');
+    $e.text('<script></script>');
+    assert.equal($e.html(), '&lt;script&gt;&lt;/script&gt;');
+    assert.equal($e.text(), '<script></script>');
+});
