@@ -227,6 +227,27 @@ iQuery.prototype = {
         }
         return this;
     },
+    attr: function(name, value){
+        var obj, i, k, ele;
+
+        switch (type(name)) {
+        case 'string':
+            if (undefined === value) {
+                return (this[0] || {})[name];
+            } else {
+                obj = {}
+                obj[name] = value;
+                return this.attr(obj);
+            }
+        case 'object':
+            for (i = 0; i < this.length; i++) {
+                for (k in name) {
+                    this[i][k] = name[k];
+                }
+            }
+        }
+        return this;
+    },
 
     each: function(func){
         for (var i = 0; i < this.length; i++) {

@@ -238,3 +238,23 @@ QUnit.test("text()", function(assert){
     assert.equal($e.html(), '&lt;script&gt;&lt;/script&gt;');
     assert.equal($e.text(), '<script></script>');
 });
+
+QUnit.test("attr()", function(assert){
+    var $e;
+    $e = $('<div>')
+        .text('attr_test~')
+        .appendTo($('#iqueryPlayGround'));
+
+    assert.equal($e.attr('id', 'attr_test'), $e);
+    assert.equal($e.attr({'className':'attr_test_class', 'title': 'attr_test_title'}), $e);
+    assert.equal($e.attr('id'), 'attr_test');
+    assert.equal($e.attr('className'), 'attr_test_class');
+    assert.equal($e.attr('title'), 'attr_test_title');
+
+    assert.equal($('#attr_test').text(), 'attr_test~');
+
+    console.log($('#attr_test'));
+    assert.equal($('.attr_test_class').text(), 'attr_test~');
+
+    $e.remove();
+});
