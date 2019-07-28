@@ -248,6 +248,30 @@ iQuery.prototype = {
         }
         return this;
     },
+    data: function (name, value){
+        var ele = this[0] || {}, key, i, obj;
+        switch(type(name)){
+        case "undefined":
+            return Object.assign({}, ele.dataset);
+        case "object":
+            for (key in name) {
+                for (i = 0; i < this.length; i++) {
+                    this[i].dataset[key] = name[key];
+                }
+            }
+            break;
+        case "string":
+            if (undefined === value) {
+                return ele.dataset ? ele.dataset[name] : undefined;
+            } else {
+                obj = {};
+                obj[name] = value;
+                return this.data(obj);
+            }
+        }
+
+        return this;
+    },
 
     each: function(func){
         for (var i = 0; i < this.length; i++) {

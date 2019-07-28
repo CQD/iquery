@@ -258,3 +258,43 @@ QUnit.test("attr()", function(assert){
 
     $e.remove();
 });
+
+QUnit.test("data() basic set / get", function(assert){
+    var $e;
+    $e = $('<div>')
+        .text('data_test~')
+        .appendTo($('#iqueryPlayGround'));
+
+    assert.equal($e.data('aaa', 'data_aaa'), $e);
+    assert.equal($e.data({'bbb':'data_bbb', 'ccc': 'data_ccc'}), $e);
+    assert.equal($e.data('aaa'), 'data_aaa');
+    assert.equal($e.data('bbb'), 'data_bbb');
+    assert.equal($e.data('ccc'), 'data_ccc');
+
+    assert.equal(JSON.stringify($e.data()), '{"aaa":"data_aaa","bbb":"data_bbb","ccc":"data_ccc"}');
+
+    $e.remove();
+});
+
+QUnit.test("data() dataset operation/ get", function(assert){
+    var $e;
+    $e = $('#data-test');
+
+    assert.equal(JSON.stringify($e.data()), '{"a":"AAA","b":"BBB","aaBbCc":"CCC","json":"{\\"name\\":\\"John\\"}"}');
+    assert.equal($e.data('a'), 'AAA');
+
+    $e.data('a', 'XXX');
+    assert.equal(JSON.stringify($e.data()), '{"a":"XXX","b":"BBB","aaBbCc":"CCC","json":"{\\"name\\":\\"John\\"}"}');
+    assert.equal($e.data('a'), 'XXX');
+
+    $e.data({a: "ABC", b: "DEF"});
+    assert.equal(JSON.stringify($e.data()), '{"a":"ABC","b":"DEF","aaBbCc":"CCC","json":"{\\"name\\":\\"John\\"}"}');
+
+    $e.data({z: "ZZZ", b: "zzz"});
+    assert.equal(JSON.stringify($e.data()), '{"a":"ABC","b":"zzz","aaBbCc":"CCC","json":"{\\"name\\":\\"John\\"}","z":"ZZZ"}');
+    assert.equal($e.data('z'), 'ZZZ');
+    assert.equal($e.data('b'), 'zzz');
+    assert.equal($e.data('aaBbCc'), 'CCC');
+
+
+});
