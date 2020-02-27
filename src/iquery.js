@@ -1,5 +1,5 @@
 (function(){
-var selectElements = function(selector, context){
+function selectElements(selector, context){
     if (!selector) return [];
     context = context || document;
 
@@ -38,7 +38,7 @@ var selectElements = function(selector, context){
     return elems;
 }
 
-var containElement = function(tree, node)
+function containElement(tree, node)
 {
     if (tree === document) return true;
 
@@ -50,11 +50,11 @@ var containElement = function(tree, node)
     return false;
 }
 
-var camelize = function(name){
+function camelize(name){
     return name.replace(/-+(.)?/g, function(match, chr){ return chr ? chr.toUpperCase() : '' })
 }
 
-var type = function(val){
+function type(val){
     var type = typeof val;
     switch (type) {
     case 'object':
@@ -65,11 +65,11 @@ var type = function(val){
     return type;
 }
 
-var uniqueFilter = function(v,idx,self){
+function uniqueFilter(v,idx,self){
     return v && self.indexOf(v) === idx;
 }
 
-var setParent = function(parent, childs, func){
+function setParent(parent, childs, func){
     var i;
     func = func || 'append';
 
@@ -89,7 +89,7 @@ var setParent = function(parent, childs, func){
     }
 }
 
-var iq2elems = function(iq) {
+function iq2elems(iq) {
     var i, elems = [];
     for (i = 0; i < iq.length; i++) {
         elems.push(iq[i]);
@@ -97,7 +97,7 @@ var iq2elems = function(iq) {
     return elems;
 }
 
-var iQuery = function(selector, context){
+function iQuery(selector, context){
 
     var elems = selectElements(selector, context);
     var i = 0;
