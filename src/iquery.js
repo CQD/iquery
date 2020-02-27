@@ -273,6 +273,37 @@ iQuery.prototype = {
         return this;
     },
 
+    val: function (value) {
+        var ele, i;
+
+        if (0 === this.length) {
+            return (undefined === value) ? undefined : this;
+        }
+
+        // TODO deal with <select>
+        if (undefined === value) {
+            ele = this[0];
+            switch (ele.tagName) {
+            case "select":
+                return ele.options[ele.selectedIndex].value;
+            default:
+                return ele.value;
+            }
+        } else {
+            for (i = 0; i < this.length; i++) {
+                ele = this[i];
+                switch (ele.tagName) {
+                case "select":
+                    throw 'val() on select not implemented';
+                    break;
+                default:
+                    ele.value = value;
+                }
+            }
+            return this;
+        }
+    },
+
     each: function(func){
         for (var i = 0; i < this.length; i++) {
             func.call(this[i], i);

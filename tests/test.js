@@ -295,6 +295,51 @@ QUnit.test("data() dataset operation/ get", function(assert){
     assert.equal($e.data('z'), 'ZZZ');
     assert.equal($e.data('b'), 'zzz');
     assert.equal($e.data('aaBbCc'), 'CCC');
+});
 
+QUnit.test("val() / <input> ", function(assert){
+    var $e;
 
+    $e = $('#testInput')
+    assert.equal($e.val(), 'valllll');
+    assert.equal($e.val('xx'), $e);
+    assert.equal($e.val(), 'xx');
+    assert.equal($e.val('valllll'), $e);
+    assert.equal($e.val(), 'valllll');
+
+    $e = $('#iqueryPlayGround input');
+    assert.equal($e.val(), 'valllll');
+    assert.equal($('#testInput').val(), 'valllll');
+    assert.equal($e.eq(1).val(), 'valllllllllll');
+    assert.equal($e.eq(2).val(), 'moo');
+
+    assert.equal($e.val('love'), $e);
+    assert.equal($e.val(), 'love');
+    assert.equal($e.eq(0).val(), 'love');
+    assert.equal($e.eq(1).val(), 'love');
+    assert.equal($e.eq(2).val(), 'love');
+    assert.equal($('#testInput3').val(), 'love');
+
+    $('#testInput').val('valllll');
+    $('#testInput2').val('valllllllllll');
+    $('#testInput3').val('moo');
+    $e = $('#iqueryPlayGround input');
+    assert.equal($e.val(), 'valllll');
+    assert.equal($('#testInput').val(), 'valllll');
+    assert.equal($e.eq(1).val(), 'valllllllllll');
+    assert.equal($e.eq(2).val(), 'moo');
+});
+
+QUnit.test("val() / <select> ", function(assert){
+    var $e, e;
+
+    $e = $('#testSelect')
+    e = $e[0];
+
+    assert.equal($e.val(), 'op2');
+    assert.equal(e.options[e.selectedIndex].value, 'op2');
+
+    assert.equal($e.val('op1'), $e);
+    assert.equal($e.val(), 'op1');
+    assert.equal(e.options[e.selectedIndex].value, 'op1');
 });
