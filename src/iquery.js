@@ -228,7 +228,7 @@ iQuery.prototype = {
         return this;
     },
     attr: function(name, value){
-        var obj, i, k, ele;
+        var obj, i, k;
 
         switch (type(name)) {
         case 'string':
