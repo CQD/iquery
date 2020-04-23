@@ -210,6 +210,7 @@ iQuery.prototype = {
         case 'undefined':
             return (this[0] || {}).textContent;
         case 'string':
+        default:
             for (var i = 0; i < this.length; i++) {
                 this[i].textContent = text;
             }

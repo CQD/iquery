@@ -225,6 +225,9 @@ QUnit.test("text()", function(assert){
     $e.text('<script></script>');
     assert.equal($e.html(), '&lt;script&gt;&lt;/script&gt;');
     assert.equal($e.text(), '<script></script>');
+    $e.text(7533967);
+    assert.equal($e.html(), '7533967', 'Set text with number');
+    assert.equal($e.text(), '7533967', 'Set text with number');
 
     $e = $('<input>')
     assert.equal($e.text(), '');
